@@ -8,6 +8,23 @@ module Watir
       # execute just loaded driver's #initialize
       initialize browser.nil? && Watir.driver == :webdriver ? :firefox : browser, *args
     end
+    
+    def try(methodname) #this method is in use in some ruby on rails classes I think. Its the #open? method that I think is the most important though.
+      begin
+        self.send(methodname.to_sym)
+        true
+      rescue
+        false
+	    end
+    end
+
+   def open? #response to http://stackoverflow.com/questions/35283059/how-do-i-find-out-if-a-watir-objects-browser-is-closed-or-not-after-typing-ct/35297847#35297847
+     if try(:exists?)
+	     exists?
+	   else
+	     false
+	   end
+  end
 
     class << self
       def start(url, browser=nil, *args)
